@@ -8,7 +8,7 @@ import os
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
-DEBUG = 1
+DEBUG = 0
 
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
 def readadc(adcnum, clockpin, mosipin, misopin, cspin):
@@ -65,6 +65,9 @@ last_read = 0       # this keeps track of the last potentiometer value
 tolerance = 5       # to keep from being jittery we'll only change
                     # volume when the pot has moved more than 5 'counts'
 
+
+calibration = 0
+raw_input('closed the door and enter')
 while True:
         # we'll assume that the pot didn't move
         trim_pot_changed = False
@@ -90,14 +93,22 @@ while True:
                 set_volume = round(set_volume)          # round out decimal value
                 set_volume = int(set_volume)            # cast volume as integer
 
-                print 'Volume = {volume}%' .format(volume = set_volume)
+		if calibration == 0:
+			calibration = set_volume
+			continue
+
+		if calibration <= set_volume:
+        		print 'door closed'
+	        	print 'Volume = {volume}%' .format(volume = set_volume)
+		
                 set_vol_cmd = 'sudo amixer cset numid=1 -- {volume}% > /dev/null' .format(volume = set_volume)
                 os.system(set_vol_cmd)  # set volume
 
+		'''
                 if DEBUG:
                         print "set_volume", set_volume
                         print "tri_pot_changed", set_volume
-
+		'''
                 # save the potentiometer reading for the next loop
                 last_read = trim_pot
 
