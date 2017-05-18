@@ -1,0 +1,13 @@
+pir 0			불켜는 것(인풋(on, off), output(발송 데이터 x)), 
+fsr 1, 2		문이 열렸는지 안열렸는지 input(on,k off), output(on, off)), 사람 들어오는지 안들어오는지(input(num, on, off), (output 1, 0))
+//핀세팅만 온습도 3, 4	input(request), output(temp, hy) only auto
+{빛 5 모터 6}
+블라인드제어 5		auto manual(request, up, down)
+
+가전제품 적외선 6	input(제품 번호, on, off), output()
+침입탐지		use fsr, auto manual(request), auto manual output(picture)
+불켜기 ??		???
+
+pin setting 0 n
+mode setting (auto manual) (blind, ips, light turn on)
+manual request (blind, ips, light turn on)not auto, (ir)
