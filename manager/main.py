@@ -1,5 +1,9 @@
 from socket import*
 
+PINSET_MODE = 0
+MODESET_MODE = 1
+REQUEST = 2
+
 serverName = "192.168.0.2"
 serverPort = 12345
 
