@@ -65,7 +65,7 @@ last_read = 0       # this keeps track of the last potentiometer value
 tolerance = 5       # to keep from being jittery we'll only change
                     # volume when the pot has moved more than 5 'counts'
 
-f = open("data.dat", "r")
+f = open("/home/pi/project/CPL-20171-Team14/fsr/data.dat", "r")
 calibration = int(f.readline())
 f.close()
 while True:
@@ -88,13 +88,14 @@ while True:
         if DEBUG:
                 print "trim_pot_changed", trim_pot_changed
 
-        if ( trim_pot_changed ):
+        if ( 1 ):
                 set_volume = trim_pot / 10.24           # convert 10bit adc0 (0-1024) trim pot read into 0-100 volume level
                 set_volume = round(set_volume)          # round out decimal value
                 set_volume = int(set_volume)            # cast volume as integer
 		if calibration <= set_volume:
-        		print 'door closed'
-	        	print 'Volume = {volume}%' .format(volume = set_volume)
+        		print 'close'
+	        else:
+			print 'open'
 		
                 set_vol_cmd = 'sudo amixer cset numid=1 -- {volume}% > /dev/null' .format(volume = set_volume)
                 os.system(set_vol_cmd)  # set volume
@@ -108,4 +109,4 @@ while True:
                 last_read = trim_pot
 
         # hang out and do nothing for a half second
-        time.sleep(0.5)
+        exit()

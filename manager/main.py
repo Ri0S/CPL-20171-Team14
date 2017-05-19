@@ -1,4 +1,5 @@
 from socket import*
+import subprocess
 import os
 
 BUFSIZE = 1024
@@ -158,7 +159,15 @@ while 1:
 #	elif opt == 1:
 	elif opt == 2:
 		os.system("python /home/pi/project/CPL-20171-Team14/fsr/set_fsr.py")
-#	elif opt == 3:
+	elif opt == 3:
+		func = int(buff[2:4])
+		if func == 1:
+			a = subprocess.Popen("/home/pi/project/CPL-20171-Team14/door/main", stdout=subprocess.PIPE).stdout.read().strip()
+			if a == "open":
+				print 'openaaa'
+			elif a == "close":
+				print 'closeaaa'
+			
 
 clientSocket.close()
 

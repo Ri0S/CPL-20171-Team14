@@ -10,7 +10,7 @@ servSocket.bind(ADDR)
 servSocket.listen(5)
 clntSocket, addr_info = servSocket.accept()
 
-clntSocket.send("0200011822")
+clntSocket.send("0301011822")
 
 #while(1):
 #	clntbuf = clntSocket.recv(BUFSIZE)
