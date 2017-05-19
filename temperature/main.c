@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define PININ 15
 #define MAXTIMINGS 85
 
 int dht11_dat[5] = {0,};
+int PININ = 15;
 
 void read_temp(){
 	uint8_t laststate = HIGH;
@@ -51,11 +51,12 @@ void read_temp(){
 	} 
 }
 
-int main(void){
+int main(int argc, char **argv){
+	PININ = atoi(argv[1]);
 	if(wiringPiSetup() == -1)
 		exit(1);
-
-	for(int i = 0; i<50; i++){
+	
+	for(int i = 0; i<5000; i++){
 		read_temp();
 		delay(200);
 	}
