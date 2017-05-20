@@ -6,7 +6,9 @@
 import time
 import os
 import RPi.GPIO as GPIO
+import sys
 
+wtob = [17, 18, 27, 22, 23, 24, 25, 4, 2, 3, 8, 7, 10, 9, 11, 14, 15, -1, -1, -1, -1, 5, 6, 13, 19, 26, 12, 16, 20, 21, 0]
 GPIO.setmode(GPIO.BCM)
 DEBUG = 0
 
@@ -51,6 +53,11 @@ SPICLK = 18
 SPIMISO = 23
 SPIMOSI = 24
 SPICS = 25
+
+SPICLK = wtob[int(sys.argv[1])]
+SPIMISO = wtob[int(sys.argv[2])]
+SPIMOSI = wtob[int(sys.argv[3])]
+SPICS = wtob[int(sys.argv[4])]
 
 # set up the SPI interface pins
 GPIO.setup(SPIMOSI, GPIO.OUT)

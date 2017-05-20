@@ -2,26 +2,27 @@ import RPi.GPIO as GPIO
 import time
 import os
 import socket
+import sys
 
-PINOUT = 14
-PININ = 15
 room = "room1"
+
+wtob = [17, 18, 27, 22, 23, 24, 25, 4, 2, 3, 8, 7, 10, 9, 11, 14, 15, -1, -1, -1, -1, 5, 6, 13, 19, 26, 12, 16, 20, 21, 0]
+
+PININ = wtob[int(sys.argv[1])]
+PINOUT = wtob[int(sys.argv[2])]
+LED = wtob[int(sys.argv[3])]
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PININ, GPIO.IN)
 GPIO.setup(PINOUT, GPIO.OUT)
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('192.168.43.199', 10002))
 
 def pir(channel):
 	GPIO.output(14, GPIO.LOW)
 	if GPIO.input(channel) == 1:
 		global counter
 		GPIO.output(PINOUT, GPIO.HIGH)
-		os.system("/home/pi/project/CPL-20171-Team14/takepic/takepicture " + room + "/pic.jpg")
 		print("Motion detected")
-		fi = open("/home/pi/project/CPL-20171-Team14/takepic/pic/" + room + "/pic.jpg")
-		s.send(fi.read())
+		os.system("python CPL-20171-Team14/led/main.py" + ' ' + str(LED) + ' ' + '0')
 
 GPIO.add_event_detect(PININ, GPIO.BOTH, callback=pir, bouncetime=2000)
 

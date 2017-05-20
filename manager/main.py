@@ -3,6 +3,8 @@ import subprocess
 import os
 
 BUFSIZE = 1024
+
+automode = [[0],[],[]]
 ###########################################
 PINSET_MODE = 0
 MODESET_MODE = 1
@@ -22,6 +24,8 @@ PIR_PINOUT = []
 IR_PINOUT = []
 
 MOTOR_PINOUT = []
+
+LED = []
 ###########################################
 def pin_update():
 	f = open("pindb", "r")
@@ -34,6 +38,10 @@ def pin_update():
 	del PIR_PINOUT[:]
 	del IR_PINOUT[:]
 	del MOTOR_PINOUT[:]
+	del LED_PINOUT[:]
+	
+	del automode[1][:]
+	del automode[2][:]
 
 	while 1:
 		strr = f.readline()
@@ -46,9 +54,13 @@ def pin_update():
 			FSR_SPIMISO.append(int(f.readline()))
 			FSR_SPIMOSI.append(int(f.readline()))
 			FSR_SPICS.append(int(f.readline()))
+			automode[1].append(0)
 		elif strr[0:3] == "PIR":
 			PIR_PININ.append(int(f.readline()))
 			PIR_PINOUT.append(int(f.readline()))
+			automode[2].append(0)
+		elif strr[0:3] == "LED":
+			LED_PINOUT.append(int(f.readline()))
 		elif strr[0:4] == "TEMP":
                         TEMP_PININ.append(int(f.readline()))
 		elif strr[0:5] == "MOTOR":
@@ -82,6 +94,11 @@ def pin_file_update():
 		f.write("IR" + str(i) + "\n")
 		f.write("\t" + str(IR_PINOUT[i]) + "\n")
  		i+=1
+	i = 0
+	for t in LED_PINOUT:
+		f.write("LED" + str(i) + "\n")
+		f.write("\t + str(LED_PINOUT[i]) + "\n")
+		i+=1
 	i = 0
 	for t in MOTOR_PINOUT:
 		f.write("MOTOR" + str(i) + "\n")
@@ -121,6 +138,11 @@ def pin_set(device, devicenum, pin):
 			IR_PINOUT.append(pin[0])
 		else:
 			IR_PINOUT[devicenum] = pin[0]
+	elif device == 4:
+		if len(LED_PINOUT) < devicenum+1:
+			LED_PINOUT.append(pin[0])
+		else:
+			LED_PINOUT[devicenum] = pin[0]
 	elif device == 5:
 		if len(MOTOR_PINOUT) < devicenum+1:
 			MOTOR_PINOUT.append(pin[0])
@@ -130,44 +152,87 @@ def pin_set(device, devicenum, pin):
 
 pin_update()
 
-serverName = "127.0.0.1"
-serverPort = 12345
+#serverName = "127.0.0.1"
+#serverPort = 12345
 
-clientSocket = socket(AF_INET, SOCK_STREAM)
+HOST = ''
+PORT = 12345
 
-clientSocket.connect((serverName, serverPort))
+#clientSocket = socket(AF_INET, SOCK_STREAM)
+#clientSocket.connect((serverName, serverPort))
 
+s = socket(AF_INET, SOCK_STREAM)
+s.bind((HOST, PORT))
+s.listen(5)
+autopid = [[]]
 while 1:
+	clientSocket, addr = s.accept()
 	buff = clientSocket.recv(BUFSIZE)
-	opt = int(buff[0:2])
-	if opt == 0:
-		devi = int(buff[2:4])
-		dn = int(buff[4:6])
-		if devi == 0:
-			pin = [int(buff[6:8]), int(buff[8:10])]
-		elif devi == 1:
-			pin = [int(buff[6:8]), int(buff[8:10]), int(buff[10:12]), int(buff[12:14])]
-		elif devi == 2:
-			pin = [int(buff[6:8])]
-		elif devi == 3:
-                        pin = [int(buff[6:8])]
-		elif devi == 5:
-                        pin = [int(buff[6:8])]
-		
-		pin_set(0, dn, pin)
-		pin_file_update()
-#	elif opt == 1:
-	elif opt == 2:
-		os.system("python /home/pi/project/CPL-20171-Team14/fsr/set_fsr.py")
-	elif opt == 3:
-		func = int(buff[2:4])
-		if func == 1:
-			a = subprocess.Popen("/home/pi/project/CPL-20171-Team14/door/main", stdout=subprocess.PIPE).stdout.read().strip()
-			if a == "open":
-				print 'openaaa'
-			elif a == "close":
-				print 'closeaaa'
+	pid = os.fork()
+	if int(buff[0:2]) == 1 and pid != 0:
+		if int(buff[6:8] == 0):
+			for tt in autopid:
+				if tt[0] == int(buff[2:4]) and tt[1] == int(buff[4:6]):
+					os.system("kill" + str(tt[2]))
+					autopid.remove(tt)
+					break
+		else int(buff[6:8] == 1):
+				autopid.append([int(buff[2:4]), int(buff[4:6]), pid)
+	if pid == 0:
+		opt = int(buff[0:2])
+		if opt == 0:
+			devi = int(buff[2:4])
+			dn = int(buff[4:6])
+			if devi == 0:
+				pin = [int(buff[6:8]), int(buff[8:10])]
+			elif devi == 1:
+				pin = [int(buff[6:8]), int(buff[8:10]), int(buff[10:12]), int(buff[12:14])]
+			elif devi == 2:
+				pin = [int(buff[6:8])]
+			elif devi == 3:
+	                        pin = [int(buff[6:8])]
+			elif devi == 4:
+				pin = [int(buff[6:8])]
+			elif devi == 5:
+	                        pin = [int(buff[6:8])]
 			
+			pin_set(devi, dn, pin)
+			pin_file_update()
 
-clientSocket.close()
+		elif opt == 1:
+			devi = int(buff[2:4])
+			dn = int(buff[4:6])
+			modee = int(buff[6:8])
+			if modee == 1:
+				if dn == 0:
+					print
+				elif dn == 2:
+					os.system("python /home/pi/CPL-20171-Team14/pir/main.py" + ' ' + str(PIR_PININ[dn]) + ' ' + str(PIR_PINOUT[dn]) + ' ' + str(LED_PINOUT[dn]))
+			
+			
+		elif opt == 2:
+			dn = int(buff[2:4])
+			os.system("python /home/pi/project/CPL-20171-Team14/fsr/set_fsr.py" + ' ' + str(SPICLK[dn]) + ' ' + str(SPIMISO[dn]) + ' ' + str(SPIMOSI[dn]) + ' ' + str(SPICS[dn]))
+
+		elif opt == 3:
+			func = int(buff[2:4])
+			dn = int(buff[4:6])
+			if func == 1:
+				a = subprocess.Popen("python /home/pi/project/CPL-20171-Team14/door/main.py" + ' ' + str(SPICLK[dn]) + ' ' + str(SPIMISO[dn]) + ' ' + str(SPIMOSI[dn]) + ' ' + str(SPICS[dn]), stdout=subprocess.PIPE).stdout.read().strip()
+				if a == "open":
+					clientSocket.send("1")
+				elif a == "close":
+					clientSocket.send("0")
+
+			elif func == 2:
+				os.system("/home/pi/project/CPL-20171-Team14/takepic/takepicure" + room + "pic.jpg")
+				fi = open("/home/pi/project/CPL-20171-Team14/takepic/pic/" + room + "/pic.jpg")
+				clientSocket.send(fi.read())
+
+			elif func == 3:
+				onoff = int(buff[6:8])
+				os.system("python /home/pi/project/CPL-20171-Team14/led/main.py" + str(LED_PINOUT[dn]) + str(onoff)) 
+		
+		clientSocket.close()
+	
 

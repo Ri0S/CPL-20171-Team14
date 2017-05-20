@@ -7,10 +7,12 @@
 int main(void){
 	wiringPiSetup();
 
-	softPwmCreate(SERVO, 0, 100);
+	softPwmCreate(SERVO, 0, 50);
 
-	while(1)
-		softPwmWrite(SERVO, 24);
+	int i = 0;
+	for(i = 0; i=2; i++)
+		softPwmWrite(SERVO, 5);
+
 
 	return 0;
 }
