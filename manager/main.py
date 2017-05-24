@@ -25,7 +25,7 @@ IR_PINOUT = []
 
 MOTOR_PINOUT = []
 
-LED = []
+LED_PINOUT = []
 ###########################################
 def pin_update():
 	f = open("pindb", "r")
@@ -97,7 +97,7 @@ def pin_file_update():
 	i = 0
 	for t in LED_PINOUT:
 		f.write("LED" + str(i) + "\n")
-		f.write("\t + str(LED_PINOUT[i]) + "\n")
+		f.write("\t" + str(LED_PINOUT[i]) + "\n")
 		i+=1
 	i = 0
 	for t in MOTOR_PINOUT:
@@ -168,7 +168,10 @@ autopid = [[]]
 while 1:
 	clientSocket, addr = s.accept()
 	buff = clientSocket.recv(BUFSIZE)
+	print buff
 	pid = os.fork()
+	if pid != 0:
+		clientSocket.close()
 	if int(buff[0:2]) == 1 and pid != 0:
 		if int(buff[6:8] == 0):
 			for tt in autopid:
@@ -176,8 +179,8 @@ while 1:
 					os.system("kill" + str(tt[2]))
 					autopid.remove(tt)
 					break
-		else int(buff[6:8] == 1):
-				autopid.append([int(buff[2:4]), int(buff[4:6]), pid)
+		elif int(buff[6:8] == 1):
+			autopid.append([int(buff[2:4]), int(buff[4:6]), pid])
 	if pid == 0:
 		opt = int(buff[0:2])
 		if opt == 0:
@@ -218,10 +221,25 @@ while 1:
 			func = int(buff[2:4])
 			dn = int(buff[4:6])
 			if func == 0:
-				irf = open("/home/pi/project/CPL-20171-Team14/IR/irdata.txt")
-				os.system("/home/pi/project/CPL-20171-Team14/IR/send irdata.txt 3 " + str(IR_PINOUT[dn]))
+				os.system("sudo rm -rf /home/pi/project/CPL-20171-Team14/IR/irdata.txt")
+				irf = open("/home/pi/project/CPL-20171-Team14/IR/irdata.txt", "w")
+				i = 0
+				while 1:
+					c =  clientSocket.recv(BUFSIZE)
+					if 'end' in c:
+						if i == 0:
+							print "asdf" + c.split('end')[0]
+							irf.write(c.split('end')[0])
+						print "break"
+						break
+					irf.write(c)
+					i+=1
+				irf.close()			
+	
+				os.system("/home/pi/project/CPL-20171-Team14/IR/send /home/pi/project/CPL-20171-Team14/IR/irdata.txt 3 " + str(IR_PINOUT[dn]))
+				print "/home/pi/project/CPL-20171-Team14/IR/send irdata.txt 3 " + str(IR_PINOUT[dn])
 			if func == 1:
-				a = subprocess.Popen("python /home/pi/project/CPL-20171-Team14/door/main.py" + ' ' + str(SPICLK[dn]) + ' ' + str(SPIMISO[dn]) + ' ' + str(SPIMOSI[dn]) + ' ' + str(SPICS[dn]), stdout=subprocess.PIPE).stdout.read().strip()
+				a = subprocess.Popen(['python', '/home/pi/project/CPL-20171-Team14/fsr/read_fsr.py', str(SPICLK[dn]), str(SPIMISO[dn]), str(SPIMOSI[dn]), str(SPICS[dn])], stdout=subprocess.PIPE).stdout.read().strip()
 				if a == "open":
 					clientSocket.send("1")
 				elif a == "close":
@@ -235,7 +253,7 @@ while 1:
 			elif func == 3:
 				onoff = int(buff[6:8])
 				os.system("python /home/pi/project/CPL-20171-Team14/led/main.py" + str(LED_PINOUT[dn]) + str(onoff)) 
-		
+		clientSocket.send("1")	
 		clientSocket.close()
 	
 
