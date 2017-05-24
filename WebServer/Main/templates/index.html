@@ -1,0 +1,109 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home</title>
+<link href="{% static "css/bootstrap.css" %}" type="text/css" rel="stylesheet" media="all">
+<link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="all">
+<!--web-font-->
+<link href='https://fonts.googleapis.com/css?family=Marvel:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<!--//web-font-->
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="index,html" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //Custom Theme files -->
+<!-- js -->
+<script src="{% static "js/jquery-1.11.1.min.js" %}"></script> 
+<!-- //js -->	
+<!-- start-smoth-scrolling-->
+<script type="text/javascript" src="{% static "js/move-top.js" %}"></script>
+<script type="text/javascript" src="{% static "js/easing.js" %}"></script>	
+<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event){		
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+			});
+		});
+</script>
+<!--//end-smoth-scrolling-->
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<!--side-bar-->
+			<div class="col-sm-3 col-md-2 sidebar">
+				<div class="logo">
+					<a href="index.html"><img src="{% static "images/mylog.png" %}" alt="logo"/></a>
+				</div>
+				<div class="top-nav">
+					<span class="menu-icon"><img src="{% static "images/menu-icon.png" %}" alt=""/></span>	
+					<div class="nav1">
+						<ul class=" nav nav-sidebar">
+							<li class="active"><a href="index.html">Home</a></li>
+							<li><a href="about.html">About</a></li>
+							<li><a href="RaspSetting.html">Services</a></li>
+							<li><a href="contact.html">Contact</a></li>
+						</ul> 
+						<div class="social-icons">
+							<ul>
+								<li><a href="#"></a></li>
+								<li><a href="#" class="fb"></a></li>
+								<li><a href="#" class="be"></a></li>
+								<li><a href="#" class="gg"></a></li>
+							</ul>	
+						</div>						
+					</div>	
+					<!-- script-for-menu -->
+						 <script>
+						   $( "span.menu-icon" ).click(function() {
+							 $( ".nav1" ).slideToggle( 300, function() {
+							 // Animation complete.
+							  });
+							 });
+						</script>
+						<!-- /script-for-menu -->
+				</div>
+				<div class="clearfix"> </div>				
+				<p>Copyright &copy; 2017.C-K Team All rights reserved.</p>
+			</div>
+			<!--//side-bar-->
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				<!--banner-->
+				<div class="banner">
+					<div class="jumbotron banner-text">
+						<h2>RPi For IoT</h2>
+						<p>Easy home control for the lives of modern people.</p>
+						<a class="btn btn-primary" href="#" role="button">Read more</a>
+					</div>
+				</div>
+				<!--//banner-->
+				<!--main-text-->
+				<div class="main-text">
+					<div class="welcome">
+						<h3>Welcome to our page</h3>
+						<div class="col-md-4 welcome-left">
+							<img src="{% static "images/img6.jpg" %}" alt="">
+						</div>
+						<div class="col-md-8 welcome-right">
+							<h4>Based on IoT framework for Home using Raspberry Pi.To give you excellent experience on home controlling.</h4>
+							<p>{{index}} Nowadays,IoT has been more and more popular.We can hear it everywhere.However,what is a Raspberry Pi?The Raspberry Pi is a series of small single-board computers developed in the United Kingdom by the Raspberry Pi Foundation.Our group use RPis to make an IoT frame project and make this website.You can do relevant things on the website. The services are the most important part of our website.You can easily find it on the
+								navigation bar.Just try to control your home by operating the functions of Services.There are more details about us on another site.We also apply some ways for you to contact with us.Looking forward to hearing from you.
+							</p>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"> </div>
+		</div>	
+	</div>
+	</div>
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static "js/bootstrap.js" %}"> </script>
+</body>
+</html>

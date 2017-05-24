@@ -1,0 +1,243 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Services</title>
+<link href="{% static "css/bootstrap.css" %}" type="text/css" rel="stylesheet" media="all">
+<link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="all">
+<!--web-font-->
+<link href='https://fonts.googleapis.com/css?family=Marvel:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<!--//web-font-->
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Services,Html" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //Custom Theme files -->
+<!-- js -->
+<script src="{% static "js/jquery-1.11.1.min.js" %}"></script> 
+<!-- //js -->	
+<!-- start-smoth-scrolling-->
+<script type="text/javascript" src="{% static "js/move-top.js" %}"></script>
+<script type="text/javascript" src="{% static "js/easing.js" %}"></script>
+<style>
+    .Hide{
+        display: none;
+    }
+</style>
+<!--//end-smoth-scrolling-->
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<!--side-bar-->
+			<div class="col-sm-3 col-md-2 sidebar">
+				<div class="logo">
+					<a href="index.html"><img src="{% static "images/mylog.png" %}" alt="logo"/></a>
+				</div>
+				<div class="top-nav">
+					<span class="menu-icon"><img src="{% static "images/menu-icon.png" %}" alt=""/></span>	
+					<div class="nav1">
+						<ul class=" nav nav-sidebar">
+							<li><a href="{% url 'index' %}">Home</a></li>
+							<li><a href="{% url 'about' %}'">About</a></li>
+							<li><a href="{% url 'RaspSetting' %}">Services</a></li>
+							<li><a href="{% url 'contact' %}">Contact</a></li>
+						</ul> 
+						<div class="social-icons">
+							<ul>
+								<li><a href="#"></a></li>
+								<li><a href="#" class="fb"></a></li>
+								<li><a href="#" class="be"></a></li>
+								<li><a href="#" class="gg"></a></li>
+							</ul>	
+						</div>						
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+				<p>Copyright &copy; 2017.C-K Team All rights reserved.</p>
+			</div>
+			<!--//side-bar-->
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main about-main">
+				<div class="services">
+					<h3>Setting Rpi pin</h3>
+
+                    <div class="form-group Hide" id="PinIn">
+                    <label for="amount" class="col-sm-3 control-label">PinIn</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="PinIn">
+                        </div>
+                    </div>
+
+                    <div class="form-group Hide" id="PinOut">
+                    <label for="amount" class="col-sm-3 control-label">PinOut</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="PinOut">
+                        </div>
+                    </div>
+
+                    <div class="form-group Hide" id="PinNum">
+                    <label for="amount" class="col-sm-3 control-label">PinNum</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="PinNum">
+                        </div>
+                    </div>
+
+                    <div class="form-group Hide" id="SPICLF">
+                    <label for="amount" class="col-sm-3 control-label">SPICLF</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="SPICLF">
+                        </div>
+                    </div>
+
+                    <div class="form-group Hide" id="SPIMISO">
+                    <label for="amount" class="col-sm-3 control-label">SPIMISO</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="SPIMISO">
+                        </div>
+                    </div>
+
+                    <div class="form-group Hide" id="SPIMOSI">
+                    <label for="amount" class="col-sm-3 control-label">SPIMOSI</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="SPIMOSI">
+                        </div>
+                    </div>
+
+                    <div class="form-group Hide" id="SPICS">
+                    <label for="amount" class="col-sm-3 control-label">SPICS</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="SPICS">
+                        </div>
+                    </div>
+                    
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <legend>Raspberry Ip: {{RpiIp}}</legend>
+                        </div>
+                        <!-- panel preview -->
+                        <div class="col-sm-5">
+                            <h4>Add module:</h4>
+                            <div class="panel panel-default">
+                                <form method="POST" action="#">
+                                    {% csrf_token %}
+                                    <div class="panel-body form-horizontal module-form" id="PinAdd">
+                                        <div class="form-group">
+                                            <label for="Sensor" class="col-sm-3 control-label">Sensor Type</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" name="Sensor">
+                                                    <option>PIR</option>
+                                                    <option>FSR</option>
+                                                    <option>Temperture</option>
+                                                    <option>IR</option>
+                                                    <option>LED</option>
+                                                    <option>Motor</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="amount" class="col-sm-3 control-label">ModuleNum</label>
+                                            <div class="col-sm-9">
+                                                <input type="number" class="form-control" id="ModuleNum" name="ModuleNum">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input class="btn btn-danger pull-right" type="submit" id="Addmodule" value="Add module">
+                                </form>
+                            </div>            
+                        </div> <!-- / panel preview -->
+                        <div class="col-sm-7">
+                            <h4>Pin:</h4>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="table-responsive">
+                                        <table class="table preview-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pin Type</th>
+                                                    <th>moduleNum</th>
+                                                    <th>Description</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for sensor in Sensors %}
+                                                <tr>
+                                                    <td>{{sensor.Name}}</td>
+                                                    <td>{{sensor.moduleNum }}
+                                                    <td>{{sensor.pin }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody> <!-- preview content goes here-->
+                                        </table>
+                                    </div>                            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				</div>
+			</div>
+			<div class="clearfix"> </div>					
+			<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static "js/bootstrap.js" %}"> </script>
+    <script>
+        var Clear = function(){
+            $('#PinIn').hide();
+            $('#PinOut').hide();
+            $('#PinNum').hide();
+            $('#SPICLF').hide();
+            $('#SPIMISO').hide();
+            $('#SPIMOSI').hide();
+            $('#SPICS').hide();
+        }
+        //$("#PinIn").hide()
+        $("select").change(function() 
+        { var str = ""; 
+          $("select option:selected").each(function ()
+          { str += $(this).text(); 
+          }); 
+          if(str == "PIR")
+          {
+              Clear();
+              $('#PinAdd').append($('#PinIn'));
+              $('#PinAdd').append($('#PinOut'));
+              $('#PinIn').show();
+              $('#PinOut').show();
+          }
+          else if(str == "FSR")
+          {
+            Clear();
+            $('#PinAdd').append($('#SPICLF'));
+            $('#PinAdd').append($('#SPIMISO'));
+            $('#PinAdd').append($('#SPIMOSI'));
+            $('#PinAdd').append($('#SPICS'));
+            $('#SPICLF').show();
+            $('#SPIMISO').show();
+            $('#SPIMOSI').show();
+            $('#SPICS').show();
+          }
+          else if(str == "Temperture")
+          {
+              Clear();
+              $('#PinAdd').append($('#PinIn'));
+              $('#PinIn').show();
+          }
+          else if(str == "IR" || str == "LED" || str == "Motor")
+          {
+              Clear();
+              $('#PinAdd').append($('#PinOut'));
+              $('#PinOut').show();
+          }
+          else
+          {
+              Clear();
+          }
+          //alert(str);
+        }).change();
+    </script>
+</body>
+</html>
