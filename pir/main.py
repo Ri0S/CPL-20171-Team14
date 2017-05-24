@@ -14,17 +14,15 @@ LED = wtob[int(sys.argv[3])]
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(PININ, GPIO.IN)
-GPIO.setup(PINOUT, GPIO.OUT)
+GPIO.setup(LED, GPIO.OUT)
 
 def pir(channel):
-	GPIO.output(14, GPIO.LOW)
 	if GPIO.input(channel) == 1:
 		global counter
-		GPIO.output(PINOUT, GPIO.HIGH)
+		GPIO.output(LED, GPIO.HIGH)
 		print("Motion detected")
-		os.system("python CPL-20171-Team14/led/main.py" + ' ' + str(LED) + ' ' + '0')
 
-GPIO.add_event_detect(PININ, GPIO.BOTH, callback=pir, bouncetime=2000)
+GPIO.add_event_detect(PININ, GPIO.BOTH, callback=pir, bouncetime=150)
 
 try:
 	while True:

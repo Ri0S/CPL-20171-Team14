@@ -1,8 +1,15 @@
 from socket import*
 import subprocess
 import os
+import time
+import RPi.GPIO as GPIO
+import sys
 
+HOST = ''
+PORT = 12345
 BUFSIZE = 1024
+
+wtob = [17, 18, 27, 22, 23, 24, 25, 4, 2, 3, 8, 7, 10, 9, 11, 14, 15, -1, -1, -1, -1, 5, 6, 13, 19, 26, 12, 16, 20, 21, 0]
 
 automode = [[0],[],[]]
 ###########################################
@@ -11,7 +18,7 @@ MODESET_MODE = 1
 DOORSET_MODE = 2
 REQUEST = 3
 ###########################################
-FSR_SPICLF = []
+FSR_SPICLK = []
 FSR_SPIMISO = []
 FSR_SPIMOSI = []
 FSR_SPICS = []
@@ -27,9 +34,15 @@ MOTOR_PINOUT = []
 
 LED_PINOUT = []
 ###########################################
+def pir(channel):
+        if GPIO.input(channel) == 1:
+                global counter
+                GPIO.output(wtob[LED_PINOUT[0]], GPIO.HIGH)
+                print("Motion detected")
+
 def pin_update():
 	f = open("pindb", "r")
-	del FSR_SPICLF[:]
+	del FSR_SPICLK[:]
 	del FSR_SPIMISO[:]
 	del FSR_SPIMOSI[:]
 	del FSR_SPICS[:]
@@ -50,7 +63,7 @@ def pin_update():
 		if strr[0:2] == "IR":
                         IR_PINOUT.append(int(f.readline()))
 		elif strr[0:3] == "FSR":
-			FSR_SPICLF.append(int(f.readline()))
+			FSR_SPICLK.append(int(f.readline()))
 			FSR_SPIMISO.append(int(f.readline()))
 			FSR_SPIMOSI.append(int(f.readline()))
 			FSR_SPICS.append(int(f.readline()))
@@ -77,9 +90,9 @@ def pin_file_update():
 			"\t" + str(PIR_PINOUT[i]) + "\n")
 		i+=1
 	i = 0
-	for t in FSR_SPICLF:
+	for t in FSR_SPICLK:
 		f.write("FSR" + str(i) + "\n")
-		f.write("\t" + str(FSR_SPICLF[i]) + "\n" + 
+		f.write("\t" + str(FSR_SPICLK[i]) + "\n" + 
 			"\t" + str(FSR_SPIMISO[i]) + "\n" +
 			"\t" + str(FSR_SPIMOSI[i]) + "\n" +
 			"\t" + str(FSR_SPICS[i]) + "\n")
@@ -118,12 +131,12 @@ def pin_set(device, devicenum, pin):
 			PIR_PINOUT[devicenum] = pin[1]
 	elif device == 1:
 		if len(FSR_SPICLF) < devicenum+1:
-			FSR_SPICLF.append(pin[0])
+			FSR_SPICLK.append(pin[0])
 			FSR_SPIMISO.append(pin[1])
 			FSR_SPIMOSI.append(pin[2])
 			FSR_SPICS.append(pin[3])
 		else:
-			FSR_SPICLF[devicenum] = pin[0]
+			FSR_SPICLK[devicenum] = pin[0]
 			FSR_SPIMISO[devicenum] = pin[1]
 			FSR_SPIMOSI[devicenum] = pin[2]
 			FSR_SPICS[devicenum] = pin[3]
@@ -152,19 +165,13 @@ def pin_set(device, devicenum, pin):
 
 pin_update()
 
-#serverName = "127.0.0.1"
-#serverPort = 12345
-
-HOST = ''
-PORT = 12345
-
 #clientSocket = socket(AF_INET, SOCK_STREAM)
 #clientSocket.connect((serverName, serverPort))
 
 s = socket(AF_INET, SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(5)
-autopid = [[]]
+autopid = []
 while 1:
 	clientSocket, addr = s.accept()
 	buff = clientSocket.recv(BUFSIZE)
@@ -173,13 +180,13 @@ while 1:
 	if pid != 0:
 		clientSocket.close()
 	if int(buff[0:2]) == 1 and pid != 0:
-		if int(buff[6:8] == 0):
+		if int(buff[6:8]) == 0:
 			for tt in autopid:
 				if tt[0] == int(buff[2:4]) and tt[1] == int(buff[4:6]):
-					os.system("kill" + str(tt[2]))
+					os.system("kill " + str(tt[2]))
 					autopid.remove(tt)
 					break
-		elif int(buff[6:8] == 1):
+		elif int(buff[6:8]) == 1:
 			autopid.append([int(buff[2:4]), int(buff[4:6]), pid])
 	if pid == 0:
 		opt = int(buff[0:2])
@@ -203,19 +210,29 @@ while 1:
 			pin_file_update()
 
 		elif opt == 1:
-			devi = int(buff[2:4])
+			fn = int(buff[2:4])
 			dn = int(buff[4:6])
 			modee = int(buff[6:8])
-			if modee == 1:
-				if dn == 0:
-					print
-				elif dn == 2:
-					os.system("python /home/pi/CPL-20171-Team14/pir/main.py" + ' ' + str(PIR_PININ[dn]) + ' ' + str(PIR_PINOUT[dn]) + ' ' + str(LED_PINOUT[dn]))
-			
-			
+			if fn == 2:
+				if modee == 1:
+############################################################################
+					PININ = wtob[PIR_PININ[dn]]
+					PINOUT = wtob[LED_PINOUT[dn]]
+				
+					GPIO.setmode(GPIO.BCM)
+					GPIO.setup(PININ, GPIO.IN)
+					GPIO.setup(PINOUT, GPIO.OUT)
+					
+					GPIO.add_event_detect(PININ, GPIO.BOTH, callback=pir, bouncetime=150)
+					
+					while True:
+						time.sleep(0.2)		
+############################################################################
 		elif opt == 2:
 			dn = int(buff[2:4])
-			os.system("python /home/pi/project/CPL-20171-Team14/fsr/set_fsr.py" + ' ' + str(SPICLK[dn]) + ' ' + str(SPIMISO[dn]) + ' ' + str(SPIMOSI[dn]) + ' ' + str(SPICS[dn]))
+			print "fsrsetting"
+			print "python /home/pi/project/CPL-20171-Team14/fsr/set_fsr.py" + ' ' + str(FSR_SPICLK[dn]) + ' ' + str(FSR_SPIMISO[dn]) + ' ' + str(FSR_SPIMOSI[dn]) + ' ' + str(FSR_SPICS[dn])
+			os.system("python /home/pi/project/CPL-20171-Team14/fsr/set_fsr.py" + ' ' + str(FSR_SPICLK[dn]) + ' ' + str(FSR_SPIMISO[dn]) + ' ' + str(FSR_SPIMOSI[dn]) + ' ' + str(FSR_SPICS[dn]))
 
 		elif opt == 3:
 			func = int(buff[2:4])
@@ -238,22 +255,27 @@ while 1:
 	
 				os.system("/home/pi/project/CPL-20171-Team14/IR/send /home/pi/project/CPL-20171-Team14/IR/irdata.txt 3 " + str(IR_PINOUT[dn]))
 				print "/home/pi/project/CPL-20171-Team14/IR/send irdata.txt 3 " + str(IR_PINOUT[dn])
-			if func == 1:
-				a = subprocess.Popen(['python', '/home/pi/project/CPL-20171-Team14/fsr/read_fsr.py', str(SPICLK[dn]), str(SPIMISO[dn]), str(SPIMOSI[dn]), str(SPICS[dn])], stdout=subprocess.PIPE).stdout.read().strip()
+
+			elif func == 1:
+				a = subprocess.Popen(['python', '/home/pi/project/CPL-20171-Team14/fsr/read_fsr.py', str(FSR_SPICLK[dn]), str(FSR_SPIMISO[dn]), str(FSR_SPIMOSI[dn]), str(FSR_SPICS[dn])], stdout=subprocess.PIPE).stdout.read().strip()
+				print a
 				if a == "open":
 					clientSocket.send("1")
 				elif a == "close":
 					clientSocket.send("0")
 
 			elif func == 2:
-				os.system("/home/pi/project/CPL-20171-Team14/takepic/takepicure" + room + "pic.jpg")
-				fi = open("/home/pi/project/CPL-20171-Team14/takepic/pic/" + room + "/pic.jpg")
+				if buff[6:8] == "00":
+					os.system("/home/pi/project/CPL-20171-Team14/takepic/takepicture")
+					fi = open("/home/pi/project/CPL-20171-Team14/takepic/pic/pic", "r")
+				elif buff[6:8] == "01":
+					fi = open("home/pi/project/CPL-20171-Team14/takepic/pic/ips/pic", "r")
 				clientSocket.send(fi.read())
+				print "pic send"
 
 			elif func == 3:
 				onoff = int(buff[6:8])
-				os.system("python /home/pi/project/CPL-20171-Team14/led/main.py" + str(LED_PINOUT[dn]) + str(onoff)) 
-		clientSocket.send("1")	
+				os.system("python /home/pi/project/CPL-20171-Team14/led/main.py " + str(LED_PINOUT[dn]) + ' '  + str(onoff)) 
 		clientSocket.close()
 	
 
