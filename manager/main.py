@@ -217,6 +217,9 @@ while 1:
 		elif opt == 3:
 			func = int(buff[2:4])
 			dn = int(buff[4:6])
+			if func == 0:
+				irf = open("/home/pi/project/CPL-20171-Team14/IR/irdata.txt")
+				os.system("/home/pi/project/CPL-20171-Team14/IR/send irdata.txt 3 " + str(IR_PINOUT[dn]))
 			if func == 1:
 				a = subprocess.Popen("python /home/pi/project/CPL-20171-Team14/door/main.py" + ' ' + str(SPICLK[dn]) + ' ' + str(SPIMISO[dn]) + ' ' + str(SPIMOSI[dn]) + ' ' + str(SPICS[dn]), stdout=subprocess.PIPE).stdout.read().strip()
 				if a == "open":
