@@ -4,23 +4,23 @@ DOORSETTING 2
 REQUEST 3	
 
 PIN_SETTING
-	PIR(¿¿¿¿) 0	 ¿¿¿¿	PININ(01,02,..) PINOUT
-	FSR 1	¿¿¿¿	SPICLF SPIMISO SPIMOSI SPICS
-	TEMP 2	 ¿¿¿¿	PININ
-	IR 3	¿¿¿¿	PINOUT
-	LED 4		¿¿¿¿ Pin
-	MOTOR 5	¿¿¿¿ PIN	
-	¿ ¿¿¿¿¿ ¿¿¿¿(¿¿: 8,9 wiring  pi ¿¿)
+	PIR(ì¸ì²´ê°ì§€) 0	 ëª¨ë“ˆë„˜ë²„	PININ(01,02,..) PINOUT
+	FSR 1	ëª¨ë“ˆë„˜ë²„	SPICLF SPIMISO SPIMOSI SPICS
+	TEMP 2	 ëª¨ë“ˆë„˜ë²„	PININ
+	IR 3	ëª¨ë“ˆë„˜ë²„	PINOUT
+	LED 4		ëª¨ë“ˆë„˜ë²„ Pin
+	MOTOR 5	ëª¨ë“ˆë„˜ë²„ PIN	
+	â€¢ ì¡°ë„ì„¼ì„œëŠ” í•€ê³ ì •ìž„(ë²ˆí˜¸: 8,9 wiring  pi ê¸°ì¤€)
 MODE SETTING
-	BLIND 0 ¿¿¿¿ on/off(motor ¿¿¿¿ ¿¿¿¿)
-	IPS(¿¿¿¿) 1 ¿¿¿¿  on/off-> door open/close¿ ¿¿ ¿¿ ¿¿¿! (fsr¿¿ ¿¿¿¿)
-	LED TURN ON 2 ¿¿¿¿ on/off(¿¿¿¿ ¿¿¿ ¿¿¿¿ ¿¿¿) 
+	BLIND 0 ëª¨ë“ˆë„˜ë²„ on/off(motor ì„¸íŒ…ë˜ì–´ ìžˆì–´ì•¼í•¨)
+	IPS(ì¹¨ìž…íƒì§€) 1 ëª¨ë“ˆë„˜ë²„  on/off-> door open/closeë¥¼ ê³„ì† ìš”ì²­ í•´ì•¼í•¨! (fsrì„¸íŒ… ë˜ì–´ì•¼í•¨)
+	LED TURN ON 2 ëª¨ë“ˆë„˜ë²„ on/off(ìžë™ìœ¼ë¡œ í‚¬ê»€ì§€ ìˆ˜ë™ìœ¼ë¡œ ëŒê»€ì§€) 
 
-DOORSETTING(¿ ¿¿¿ ¿¿¿ ¿)
-	 ¿¿¿¿
+DOORSETTING(ê± ì´ê²ƒë§Œ ë³´ë‚´ë©´ ë¨)
+	 ëª¨ë“ˆë„˜ë²„
 
 REQUEST
-	IR 0 ¿¿
-	DOOR OPEN/CLOSE 1 ¿¿¿¿ (¿ ¿¿ ¿¿ 0, 1) -> ¿¿ IPS¿¿¿¿ ¿¿¿ x return: ¿¿¿ 1
-	PIC(¿¿¿ ¿¿¿¿) 2 ¿¿¿¿ (¿¿¿¿: 01, ¿¿¿¿: 00)
-LIGHT TURN ON 3  ¿¿¿¿ 00 or 01(¿¿¿ ¿¿) -> ¿¿¿¿¿¿ ¿¿¿ x
+	IR 0 íŒŒì¼
+	DOOR OPEN/CLOSE 1 ëª¨ë“ˆë„˜ë²„ (ë¬¸ ì—´ë¦¼ ìƒíƒœ 0, 1) -> ë§Œì•½ IPSì¼œì ¸ìžˆìŒ ìˆ˜ìž‘ì—… x return: ì—´ë¦°ê²Œ 1
+	PIC(í˜„ê´€ë¬¸ ì‚¬ì§„ìš”ì²­) 2 ëª¨ë“ˆë„˜ë²„ (ì°ì–´ë…¼ê±°: 01, í˜„ìž¬ì°ìŒ: 00)
+LIGHT TURN ON 3  ëª¨ë“ˆë„˜ë²„ 00 or 01(ë¶ˆë„ê³  í‚¤ê³ ) -> ìžë™ëª¨ë“œë¼ë©´ ìˆ˜ìž‘ì—… x
