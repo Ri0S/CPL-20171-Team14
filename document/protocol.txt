@@ -1,13 +1,26 @@
-pir 0			ºÒÄÑ´Â °Í(ÀÎÇ²(on, off), output(¹ß¼Û µ¥ÀÌÅÍ x)), 
-fsr 1, 2		¹®ÀÌ ¿­·È´ÂÁö ¾È¿­·È´ÂÁö input(on,k off), output(on, off)), »ç¶÷ µé¾î¿À´ÂÁö ¾Èµé¾î¿À´ÂÁö(input(num, on, off), (output 1, 0))
-//ÇÉ¼¼ÆÃ¸¸ ¿Â½Àµµ 3, 4	input(request), output(temp, hy) only auto
-{ºû 5 ¸ðÅÍ 6}
-ºí¶óÀÎµåÁ¦¾î 5		auto manual(request, up, down)
+PIN SETTING 0	
+MODE SETTING 1 	
+DOORSETTING 2	
+REQUEST 3	
 
-°¡ÀüÁ¦Ç° Àû¿Ü¼± 6	input(Á¦Ç° ¹øÈ£, on, off), output()
-Ä§ÀÔÅ½Áö		use fsr, auto manual(request), auto manual output(picture)
-ºÒÄÑ±â ??		???
+PIN_SETTING
+	PIR(¿¿¿¿) 0	 ¿¿¿¿	PININ(01,02,..) PINOUT
+	FSR 1	¿¿¿¿	SPICLF SPIMISO SPIMOSI SPICS
+	TEMP 2	 ¿¿¿¿	PININ
+	IR 3	¿¿¿¿	PINOUT
+	LED 4		¿¿¿¿ Pin
+	MOTOR 5	¿¿¿¿ PIN	
+	¿ ¿¿¿¿¿ ¿¿¿¿(¿¿: 8,9 wiring  pi ¿¿)
+MODE SETTING
+	BLIND 0 ¿¿¿¿ on/off(motor ¿¿¿¿ ¿¿¿¿)
+	IPS(¿¿¿¿) 1 ¿¿¿¿  on/off-> door open/close¿ ¿¿ ¿¿ ¿¿¿! (fsr¿¿ ¿¿¿¿)
+	LED TURN ON 2 ¿¿¿¿ on/off(¿¿¿¿ ¿¿¿ ¿¿¿¿ ¿¿¿) 
 
-pin setting 0 n
-mode setting (auto manual) (blind, ips, light turn on)
-manual request (blind, ips, light turn on)not auto, (ir)
+DOORSETTING(¿ ¿¿¿ ¿¿¿ ¿)
+	 ¿¿¿¿
+
+REQUEST
+	IR 0 ¿¿
+	DOOR OPEN/CLOSE 1 ¿¿¿¿ (¿ ¿¿ ¿¿ 0, 1) -> ¿¿ IPS¿¿¿¿ ¿¿¿ x return: ¿¿¿ 1
+	PIC(¿¿¿ ¿¿¿¿) 2 ¿¿¿¿ (¿¿¿¿: 01, ¿¿¿¿: 00)
+LIGHT TURN ON 3  ¿¿¿¿ 00 or 01(¿¿¿ ¿¿) -> ¿¿¿¿¿¿ ¿¿¿ x
