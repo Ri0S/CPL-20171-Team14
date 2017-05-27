@@ -130,7 +130,7 @@ def pin_set(device, devicenum, pin):
 			PIR_PININ[devicenum] = pin[0]
 			PIR_PINOUT[devicenum] = pin[1]
 	elif device == 1:
-		if len(FSR_SPICLF) < devicenum+1:
+		if len(FSR_SPICLK) < devicenum+1:
 			FSR_SPICLK.append(pin[0])
 			FSR_SPIMISO.append(pin[1])
 			FSR_SPIMOSI.append(pin[2])
@@ -218,10 +218,14 @@ while 1:
 					status = 0
                                         while 1:
                                                 a = subprocess.Popen(['python', '/home/pi/project/CPL-20171-Team14/light/main.py'], stdout=subprocess.PIPE).stdout.read().strip()
-                                                if float(a) > 200 and status == 0:
-                                                        os.system("/home/pi/project/CPL-20171-Team14/motor/servo " + str(MOTOR_PINOUT[dn]) + " 0")
-                                                elif float(a) < 200 and status == 1:
+                                                if float(a) > 1000 and status == 0:
+                                                        print a, status
+							os.system("/home/pi/project/CPL-20171-Team14/motor/servo " + str(MOTOR_PINOUT[dn]) + " 0")
+							status = 1
+                                                elif float(a) < 1000 and status == 1:
+							print a, status
                                                         os.system("/home/pi/project/CPL-20171-Team14/motor/servo " + str(MOTOR_PINOUT[dn]) + " 1")
+							status = 0
                                                 time.sleep(10)
 			elif fn == 2:
 				if modee == 1:

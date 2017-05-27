@@ -17,7 +17,7 @@ int main(int argc, char **argv){
 		softPwmCreate(SERVO, 0, 10000);
 		while(1){
 			softPwmWrite(SERVO, 30);
-			if(time(NULL) - init > 4){
+			if(time(NULL) - init > 2){
 				break;
 			}
 		}
@@ -26,7 +26,7 @@ int main(int argc, char **argv){
 		softPwmCreate(SERVO, 0, 10000);
 		while(1){
 			softPwmWrite(SERVO, 1);
-			if(time(NULL) - init > 4){
+			if(time(NULL) - init > 2){
 				break;
 			}
 		}
