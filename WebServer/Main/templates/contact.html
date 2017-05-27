@@ -1,0 +1,120 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contact</title>
+<link href="{% static "css/bootstrap.css" %}" type="text/css" rel="stylesheet" media="all">
+<link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="all">
+<!--web-font-->
+<link href='https://fonts.googleapis.com/css?family=Marvel:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<!--//web-font-->
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Contact,Html" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //Custom Theme files -->
+<!-- js -->
+<script src="{% static "js/jquery-1.11.1.min.js" %}"></script> 
+<!-- //js -->	
+<!-- start-smoth-scrolling-->
+<script type="text/javascript" src="{% static "js/move-top.js" %}"></script>
+<script type="text/javascript" src="{% static "js/easing.js" %}"></script>	
+<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event){		
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+			});
+		});
+</script>
+<!--//end-smoth-scrolling-->
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<!--side-bar-->
+			<div class="col-sm-3 col-md-2 sidebar">
+				<div class="logo">
+					<a href="index.html"><img src="{% static "images/mylog.png" %}" alt="logo"/></a>
+				</div>
+				<div class="top-nav">
+					<span class="menu-icon"><img src="{% static "images/menu-icon.png" %}" alt=""/></span>	
+					<div class="nav1">
+						<ul class=" nav nav-sidebar">
+							<li><a href="index.html">Home</a></li>
+							<li><a href="about.html">About</a></li>
+							<li><a href="RaspSetting.html">Services</a></li>
+							<li class="active"><a href="contact.html">Contact</a></li>
+						</ul> 
+						<div class="social-icons">
+							<ul>
+								<li><a href="#"></a></li>
+								<li><a href="#" class="fb"></a></li>
+								<li><a href="#" class="be"></a></li>
+								<li><a href="#" class="gg"></a></li>
+							</ul>	
+						</div>						
+					</div>	
+					<!-- script-for-menu -->
+						 <script>
+						   $( "span.menu-icon" ).click(function() {
+							 $( ".nav1" ).slideToggle( 300, function() {
+							 // Animation complete.
+							  });
+							 });
+						</script>
+						<!-- /script-for-menu -->
+				</div>
+				<div class="clearfix"> </div>
+				<p>Copyright &copy; 2017.C-K Team All rights reserved.</p>
+			</div>
+			<!--//side-bar-->
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main about-main">
+				<div class="contact">
+					<h3>How To Find Us</h3>
+					<div class="map">
+						<div class="col-md-6 column">
+						<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3409.7782709037974!2d121.2101035!3d31.2822279!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35b2432a9bb332c9%3A0x505016d054ab167b!2sTongji+University+%EF%BC%88Jiading+Campus%EF%BC%89!5e0!3m2!1sen!2s!4v1493898521270" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+						</div>
+						<div class="col-md-6 column">
+						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3232.324947734869!2d128.6091395149163!3d35.890056426099044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3565e19e1c03ddbd%3A0xdc40a75efbd7103c!2sKyungpook+National+University!5e0!3m2!1sen!2s!4v1493898684835" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+						</div>
+					</div>
+					<div class="contact-grids">
+						<div class="col-md-4 address">
+							<h3>Contact Info</h3>
+							<p class="cnt-p">You can choose to contact with our Korean-group or Chinese-group.</p>
+							<p>Buk-gu, Daegu, South Korea</p>
+							<p>80 Daehak-ro, Sangyeok 3(sam)-dong</p>
+							<p>Telephone : +82 53-950-5114</p>
+							<p>Email : <a href="mailto:example@mail.com">mail@example.com</a></p>
+							<p>Shanghai Shi, China</p>
+							<p>4800 Cao'an Hwy, Jiading Qu</p>
+							<p>Telephone : +86 21 6958 9255</p>
+							<p>Email : <a href="mailto:example@mail.com">mail@example.com</a></p>
+						</div>
+						<div class="col-md-8 contact-form">
+							<h3>Contact Form</h3>
+							<form>
+								<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
+								<input type="email" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+								<input type="text" value="Telephone" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Telephone';}" required="">
+								<textarea type="text"  onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message...';}" required="">Message...</textarea>
+								<input type="submit" value="Submit" >
+							</form>
+						</div>
+						<div class="clearfix"> </div>	
+					</div>				
+				</div>
+			</div>
+			<div class="clearfix"> </div>	
+		</div>
+	</div>
+			<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static "js/bootstrap.js" %}"> </script>
+</body>
+</html>

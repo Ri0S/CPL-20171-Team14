@@ -1,0 +1,425 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Services</title>
+<link href="{% static "css/bootstrap.css" %}" type="text/css" rel="stylesheet" media="all">
+<link href="{% static "css/style.css" %}" type="text/css" rel="stylesheet" media="all">
+<!--web-font-->
+<link href='https://fonts.googleapis.com/css?family=Marvel:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+<!--//web-font-->
+<!-- Custom Theme files -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Services,Html" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //Custom Theme files -->
+<!-- js -->
+<script src="{% static "js/jquery-1.11.1.min.js" %}"></script> 
+<!-- //js -->	
+<!-- start-smoth-scrolling-->
+<script type="text/javascript" src="{% static "js/move-top.js" %}"></script>
+<script type="text/javascript" src="{% static "js/easing.js" %}"></script>	
+<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event){		
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+			});
+		});
+
+        function Ips()
+        {
+            var check = $("#Ips").is(":checked");
+            if(check)
+            {
+                $.ajax({
+                        url: "{% url 'DoorCheckRequest' RpiIp=RpiIp %}", 
+                        success: function(result){
+                            //침입 탐지
+                            if(result == "door 1")
+                            {
+                                window.open("{% url 'CameraRequest' RpiIp=RpiIp %}", "Camera", 'width=800, height=600');
+                            }
+                    }});
+                setTimeout('Ips()',10000);
+            }
+            else
+            {
+                return;
+            }
+        }
+</script>
+	<style>
+	.Hide{
+       display: none;
+    }
+	
+	.button {
+		display: block;
+		position: absolute;
+		width: 120px;
+		height: 40px;
+		background: -webkit-linear-gradient(top, #11181f 0%, #161f29 100%);
+		background: linear-gradient(to bottom, #11181f 0%, #161f29 100%);
+		border-radius: 40px;
+		box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+		cursor: pointer;
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	}
+	.button span {
+		position: absolute;
+		display: block;
+	}
+	.button span:first-of-type {
+		z-index: 100;
+		top: 2px;
+		right: 4px;
+		width: 64px;
+		height: 36px;
+		background: -webkit-linear-gradient(top, #2c3e50 0%, #1e2a36 100%);
+		background: linear-gradient(to bottom, #2c3e50 0%, #1e2a36 100%);
+		box-shadow: 0 6px 4px rgba(255, 255, 255, 0.1) inset, 0 2px 0px rgba(255, 255, 255, 0.2) inset, 0 -6px 0px rgba(0, 0, 0, 0.2) inset, 0 -2px 0px rgba(0, 0, 0, 0.2) inset, 0 2px 2px rgba(0, 0, 0, 0.4), -4px 2px 8px rgba(0, 0, 0, 0.4), 2px 0 1px rgba(242, 201, 197, 0.5) inset;
+		border-radius: 18px;
+		-webkit-transition: right 400ms cubic-bezier(1, 0, 0, 1), box-shadow 400ms ease;
+		transition: right 400ms cubic-bezier(1, 0, 0, 1), box-shadow 400ms ease;
+	}
+	.button span:nth-last-of-type(-n+2) {
+		z-index: 10;
+		top: 4px;
+		width: 58px;
+		height: 36px;
+		-webkit-transition: opacity 800ms ease 100ms;
+		transition: opacity 800ms ease 100ms;
+	}
+	.button span:nth-last-of-type(-n+2):after {
+		position: absolute;
+		top: 12px;
+		line-height: 1;
+		font-family: "Open Sans";
+		font-weight: 800;
+		font-size: 12px;
+		color: white;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 20px #ffffff;
+	}
+	.button span:nth-of-type(2) {
+		left: 4px;
+		background: -webkit-linear-gradient(top, #c0392b 0%, #d65548 100%);
+		background: linear-gradient(to bottom, #c0392b 0%, #d65548 100%);
+		border-top-left-radius: 36px;
+		border-bottom-left-radius: 36px;
+		box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.5) inset, 0 -2px 8px rgba(0, 0, 0, 0.4) inset;
+	}
+	.button span:nth-of-type(2):after {
+		content: "OFF";
+		left: 16px;
+	}
+	.button span:last-of-type {
+		right: 4px;
+		background: -webkit-linear-gradient(top, #2ecc71 0%, #7ee2a8 100%);
+		background: linear-gradient(to bottom, #2ecc71 0%, #7ee2a8 100%);
+		border-top-right-radius: 36px;
+		border-bottom-right-radius: 36px;
+		box-shadow: -4px 4px 12px 4px rgba(0, 0, 0, 0.5) inset, 0 -2px 8px rgba(0, 0, 0, 0.4) inset;
+		opacity: 0.2;
+	}
+	.button span:last-of-type:after {
+		content: "ON";
+		right: 16px;
+	}
+	.button input[type="checkbox"] {
+		display: none;
+	}
+	.button input[type="checkbox"]:checked ~ span:first-of-type {
+		right: 52px;
+		box-shadow: 0 6px 4px rgba(255, 255, 255, 0.1) inset, 0 2px 0px rgba(255, 255, 255, 0.2) inset, 0 -6px 0px rgba(0, 0, 0, 0.2) inset, 0 -2px 0px rgba(0, 0, 0, 0.2) inset, 0 2px 2px rgba(0, 0, 0, 0.4), 4px 2px 8px rgba(0, 0, 0, 0.4), -2px 0 1px rgba(209, 245, 224, 0.5) inset;
+	}
+	.button input[type="checkbox"]:checked ~ span:nth-of-type(2) {
+		opacity: 0.2;
+	}
+	.button input[type="checkbox"]:checked ~ span:last-of-type {
+		opacity: 1;
+	}
+	</style>
+<!--//end-smoth-scrolling-->
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<!--side-bar-->
+			<div class="col-sm-3 col-md-2 sidebar">
+				<div class="logo">
+					<a href="index.html"><img src="{% static "images/mylog.png" %}" alt="logo"/></a>
+				</div>
+				<div class="top-nav">
+					<span class="menu-icon"><img src="{% static "images/menu-icon.png" %}" alt=""/></span>	
+					<div class="nav1">
+						<ul class=" nav nav-sidebar">
+							<li><a href="{% url 'index' %}">Home</a></li>
+							<li><a href="{% url 'about' %}'">About</a></li>
+							<li><a href="{% url 'RaspSetting' %}">Services</a></li>
+							<li><a href="{% url 'contact' %}">Contact</a></li>
+						</ul> 
+						<div class="social-icons">
+							<ul>
+								<li><a href="#"></a></li>
+								<li><a href="#" class="fb"></a></li>
+								<li><a href="#" class="be"></a></li>
+								<li><a href="#" class="gg"></a></li>
+							</ul>	
+						</div>						
+					</div>
+					<!-- script-for-menu -->
+						 <script>
+						   $( "span.menu-icon" ).click(function() {
+							 $( ".nav1" ).slideToggle( 300, function() {
+							 // Animation complete.
+							  });
+							 });
+						</script>
+						<!-- /script-for-menu -->
+				</div>
+				<div class="clearfix"> </div>
+				<p>Copyright &copy; 2017.C-K Team All rights reserved.</p>
+			</div>
+			<!--//side-bar-->
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main about-main">
+				<div class="services">
+                    <h3>Rasberry Ip: {{RpiIp}}<h3>
+					<h3>Auto Mode</h3>
+					<!--service-page-->
+					<div class="row clearfix">
+						<div class="col-md-6 column">
+							<label class="button">
+							{% if Setting.BlindAuto %}
+								<input class="Auto" id="BlindAuto" type="checkbox" checked>
+							{% else %}
+								<input class="Auto" id="BlindAuto" type="checkbox">
+							{% endif %}
+							<span></span>
+							<span></span>
+							<span></span>
+						    </label>
+						</div>
+						<div class="col-md-6 column">
+							<p class="text-right">
+								Blind auto
+							</p>
+						</div>
+					</div>
+					<br>
+					<hr>
+
+					<div class="row clearfix">
+						<div class="col-md-6 column">
+							<label class="button">
+								{% if Setting.Ips %}
+								<input class="Auto" id="Ips" type="checkbox" checked>
+                                <script> Ips(); </script>
+								{% else %}
+								<input class="Auto" id="Ips" type="checkbox">
+								{% endif %}
+								<span></span>
+								<span></span>
+								<span></span>
+							</label>
+						</div>
+						<div class="col-md-6 column">
+							<p class="text-right">
+								Ips
+							</p>
+						</div>
+					</div>
+					<br>
+					<hr>
+
+                    			<div class="row clearfix">
+						<div class="col-md-6 column">
+							<label class="button">
+								{% if Setting.LightAuto %}
+									<input class="Auto" id="LightAuto" type="checkbox" checked>
+								{% else %}
+									<input class="Auto" id="LightAuto" type="checkbox">
+								{% endif %}
+								<span></span>
+								<span></span>
+								<span></span>
+							</label>
+						</div>
+						<div class="col-md-6 column">
+							<p class="text-right">
+								light auto
+							</p>
+						</div>
+					</div>
+					<br>
+					<hr>
+                    
+					<h3> Manual Mode </h3>
+                    
+					<div class="row clearfix">
+						<div class="col-md-6 column">
+							<label class="button">
+								<input class="Manual" id="LightTurn" type="checkbox">
+								<span></span>
+								<span></span>
+								<span></span>
+							</label>
+						</div>
+						<div class="col-md-6 column">
+							<p class="text-right">
+								Light
+							</p>
+						</div>
+					</div>
+					<br>
+					<hr>
+
+                    <div class="row clearfix">
+						<div class="col-md-6 column">
+							<button type="button" id="DoorOpenCheck" class="btn btn-primary Manual">Door Open check</button>
+						</div>
+					</div>
+					<hr>
+
+                    <div class="row clearfix">
+						<div class="col-md-6 column">
+							<button type="button" id="CameraReqeust" class="btn btn-primary Manual">Request Door camera</button>
+						</div>
+					</div>
+				</div>
+                <hr>
+
+                <div class="form-group">
+                    <label for="Sensor" class="col-sm-3 control-label">IR Device</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="Sensor">
+                            <option>test</option>
+                            <option>FSR</option>
+                        </select>
+                    </div>
+                    <button type="button" id="IrRequest" class="btn btn-primary Manual">Request</button>
+                </div>
+			<div class="clearfix"> </div>					
+			<!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static "js/bootstrap.js" %}"> </script>
+	<script>
+		$('.Auto').click(function(){
+            var Id = $(this).attr("id");
+            var IsOn = $(this).is(":checked");
+            if(Id == "BlindAuto")
+            {
+                if(IsOn)
+                {
+                    $.ajax({
+                        url: "{% url 'BlindAuto' RpiIp=RpiIp On=1 %}", 
+                        success: function(result){
+                            alert(result);
+                    }});
+                   
+                }
+                else
+                {
+                   $.ajax({
+                        url: "{% url 'BlindAuto' RpiIp=RpiIp On=0 %}", 
+                        success: function(result){
+                            alert(result);
+                    }});
+                }
+            }
+            else if(Id == "Ips")
+            {
+                if(IsOn)
+                {
+                    $.ajax({
+                        url: "{% url 'IpsAuto' RpiIp=RpiIp On=1 %}", 
+                        success: function(result){
+                            alert(result);
+                            if(result == "success")
+                            {
+                                alert("IPS on!!");
+                                Ips();
+                            }
+                    }});
+                }
+                else
+                {
+                   $.ajax({
+                        url: "{% url 'IpsAuto' RpiIp=RpiIp On=0 %}", 
+                        success: function(result){
+                    }});
+                }
+            }
+            else if(Id == "LightAuto")
+            {
+                if(IsOn)
+                {
+                    $.ajax({
+                        url: "{% url 'LedAuto' RpiIp=RpiIp On=1 %}", 
+                        success: function(result){
+                            alert(result);
+                    }});
+                }
+                else
+                {
+                    $.ajax({
+                        url: "{% url 'LedAuto' RpiIp=RpiIp On=0 %}", 
+                        success: function(result){
+                            alert(result);
+                    }});
+                }
+            }
+        });
+
+        $('.Manual').click(function(){
+            var Id = $(this).attr("id");
+            if(Id == "LightTurn")
+            {
+                var IsOn = $(this).is(":checked");
+                if(IsOn)
+                {
+                    $.ajax({
+                        url: "{% url 'LightRequest' RpiIp=RpiIp On=0 %}", 
+                        success: function(result){
+                            alert(result);
+                    }});
+                }
+                else
+                {
+                    $.ajax({
+                        url: "{% url 'LightRequest' RpiIp=RpiIp On=1 %}", 
+                        success: function(result){
+                            alert(result);
+                    }});
+                }
+            }
+            else if(Id =="DoorOpenCheck")
+            {
+                $.ajax({
+                        url: "{% url 'DoorCheckRequest' RpiIp=RpiIp %}", 
+                        success: function(result){
+                            alert(result);
+                    }});
+            }
+            else if(Id == "CameraReqeust")
+            {
+                    window.open("{% url 'CameraRequest' RpiIp=RpiIp %}", "Camera", 'width=800, height=600');
+            }
+            else if(Id == "IrRequest")
+            {
+                var IrName = $("select option:selected").text();
+                var RequestUrl = "{% url 'IrRequest' RpiIp=RpiIp DeviceName=NULL%}";
+                RequestUrl = RequestUrl.substring(0,RequestUrl.lastIndexOf("/"))
+                $.ajax({
+                        url: RequestUrl+IrName, 
+                        success: function(result){
+                            alert(result);
+                    }});
+            }
+        });
+	</script>
+</body>
+</html>

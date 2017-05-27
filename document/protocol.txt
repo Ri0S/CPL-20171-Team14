@@ -1,13 +1,26 @@
-pir 0			╨рдя╢б ╟м(юнг╡(on, off), output(╧ъ╪ш ╣╔юлем x)), 
-fsr 1, 2		╧╝юл ©╜╥х╢баЖ ╬х©╜╥х╢баЖ input(on,k off), output(on, off)), ╩Г╤В ╣И╬Н©ю╢баЖ ╬х╣И╬Н©ю╢баЖ(input(num, on, off), (output 1, 0))
-//ги╪╪фц╦╦ ©б╫ю╣╣ 3, 4	input(request), output(temp, hy) only auto
-{╨Ш 5 ╦Пем 6}
-╨М╤Сюн╣Еа╕╬Н 5		auto manual(request, up, down)
+PIN SETTING 0	
+MODE SETTING 1 	
+DOORSETTING 2	
+REQUEST 3	
 
-╟║юЭа╕г╟ юШ©э╪╠ 6	input(а╕г╟ ╧Ьхё, on, off), output()
-д╖юте╫аЖ		use fsr, auto manual(request), auto manual output(picture)
-╨рдя╠Б ??		???
+PIN_SETTING
+	PIR(Л²╦Л╡╢Й╟░Л╖─) 0	 К╙╗К⌠┬К└≤К╡└	PININ(01,02,..) PINOUT
+	FSR 1	К╙╗К⌠┬К└≤К╡└	SPICLF SPIMISO SPIMOSI SPICS
+	TEMP 2	 К╙╗К⌠┬К└≤К╡└	PININ
+	IR 3	К╙╗К⌠┬К└≤К╡└	PINOUT
+	LED 4		К╙╗К⌠┬К└≤К╡└ Pin
+	MOTOR 5	К╙╗К⌠┬К└≤К╡└ PIN	
+	Б─╒ Л║╟К▐└Л└╪Л└°К┼■ М∙─ЙЁ═Л═∙Л·└(К╡┬М≤╦: 8,9 wiring  pi Й╦╟Л╓─)
+MODE SETTING
+	BLIND 0 К╙╗К⌠┬К└≤К╡└ on/off(motor Л└╦М▄┘К░≤Л√╢ Л·┬Л√╢Л∙╪М∙╗)
+	IPS(Л╧╗Л·┘М┐░Л╖─) 1 К╙╗К⌠┬К└≤К╡└  on/off-> door open/closeК╔╪ ЙЁ└Л├█ Л ■Л╡╜ М∙╢Л∙╪М∙╗! (fsrЛ└╦М▄┘ К░≤Л√╢Л∙╪М∙╗)
+	LED TURN ON 2 К╙╗К⌠┬К└≤К╡└ on/off(Л·░К▐≥Л°╪К║° М┌╛Й╩─Л╖─ Л┬≤К▐≥Л°╪К║° К│▄Й╩─Л╖─) 
 
-pin setting 0 n
-mode setting (auto manual) (blind, ips, light turn on)
-manual request (blind, ips, light turn on)not auto, (ir)
+DOORSETTING(Й╠█ Л²╢Й╡┐К╖▄ КЁ╢К┌╢К╘╢ К░╗)
+	 К╙╗К⌠┬К└≤К╡└
+
+REQUEST
+	IR 0 М▄▄Л²╪
+	DOOR OPEN/CLOSE 1 К╙╗К⌠┬К└≤К╡└ (К╛╦ Л≈╢К╕╪ Л┐│М┐° 0, 1) -> К╖▄Л∙╫ IPSЛ╪°Л═╦Л·┬Л²▄ Л┬≤Л·▒Л≈┘ x return: Л≈╢К╕╟Й╡▄ 1
+	PIC(М≤└Й╢─К╛╦ Л┌╛Л╖└Л ■Л╡╜) 2 К╙╗К⌠┬К└≤К╡└ (Л╟█Л√╢К┘╪Й╠╟: 01, М≤└Л·╛Л╟█Л²▄: 00)
+LIGHT TURN ON 3  К╙╗К⌠┬К└≤К╡└ 00 or 01(К╤┬К│└ЙЁ═ М┌╓ЙЁ═) -> Л·░К▐≥К╙╗К⌠°К²╪К╘╢ Л┬≤Л·▒Л≈┘ x
