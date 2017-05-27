@@ -285,6 +285,13 @@
 
                     <div class="row clearfix">
 						<div class="col-md-6 column">
+							<button type="button" id="TempRequest" class="btn btn-primary Manual">Himidity Temp check</button>
+						</div>
+					</div>
+					<hr>
+
+                    <div class="row clearfix">
+						<div class="col-md-6 column">
 							<button type="button" id="CameraReqeust" class="btn btn-primary Manual">Request Door camera</button>
 						</div>
 					</div>
@@ -415,6 +422,14 @@
                 RequestUrl = RequestUrl.substring(0,RequestUrl.lastIndexOf("/"))
                 $.ajax({
                         url: RequestUrl+IrName, 
+                        success: function(result){
+                            alert(result);
+                    }});
+            }
+            else if(Id =="TempRequest")
+            {
+                $.ajax({
+                        url: "{% url 'TempRequest' RpiIp=RpiIp %}", 
                         success: function(result){
                             alert(result);
                     }});

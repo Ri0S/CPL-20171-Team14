@@ -36,4 +36,5 @@ urlpatterns = [
     url(r'^IrRequest/(?P<RpiIp>.*)/(?P<DeviceName>.*)/$', views.IrRequest, name="IrRequest"),
     url(r'^CameraRequest/(?P<RpiIp>.*)/$', views.CameraRequest, name="CameraRequest"),
     url(r'^IpsBack/(?P<RpiIp>.*)/$', views.IpsBack, name="IpsBack"),
+    url(r'^TempRequest/(?P<RpiIp>.*)/$', views.TempRequest, name="TempRequest"),
 ]

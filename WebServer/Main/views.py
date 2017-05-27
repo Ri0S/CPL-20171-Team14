@@ -358,7 +358,7 @@ IR_REQUEST = "00"
 DOOR_REQUEST = "01"
 PIC_REQUEST = "02"
 LIGHT_REQUEST = "03"
-
+TEMP_REQUEST = "04"
 def DoorCheckRequest(request, RpiIp):
 	try:
 		rpi = Raspberry.objects.get(Ip=RpiIp)
@@ -393,6 +393,28 @@ def LightRequest(request, RpiIp, On): #On: 1 -> on, 0 -> off
 	except:
 		return HttpResponse("fail")
 
+def TempRequest(request, RpiIp):
+	try:
+		rpi = Raspberry.objects.get(Ip=RpiIp)
+		sensor = Sensor.objects.get(Ip=rpi, SensorName="TEMP")
+		moduleNum = sensor.moduleNum
+		
+		s = socket.socket()
+		s.connect((RpiIp, ServerPort))
+
+		protocol = REQUEST + TEMP_REQUEST + str(moduleNum).zfill(2)
+		s.send(protocol)
+
+		response = s.recv(10)
+		s.close()
+        
+		response = response.split(" ")
+		Humidity = response[0]
+		Temp = response[1]
+
+		return HttpResponse("Humidity: %s percent, Temp: %s" %(Humidity, Temp))
+	except:
+		return HttpResponse("fail")
 
 #file send.... not yet
 def IrRequest(reqeust, RpiIp, DeviceName):
