@@ -80,11 +80,9 @@ def main():
 
  
 
-	while True:
 
-		print "Light Level : " + str(readLight()) + " lx"
+	print readLight()
 
-		time.sleep(0.5)
 
    
 

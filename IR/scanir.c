@@ -5,7 +5,7 @@
 #include <sys/time.h>
 
 int readable = 1;
-int read_pin = 7;
+int read_pin = 27;
 int interval = 10;
 int max_wait = 40000;
 

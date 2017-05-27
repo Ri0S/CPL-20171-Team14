@@ -9,7 +9,7 @@
 int dht11_dat[5] = {0,};
 int PININ = 27;
 
-void read_temp(){
+int read_temp(){
 	uint8_t laststate = HIGH;
 	uint8_t counter = 0;
 	uint8_t j = 0;
@@ -49,9 +49,9 @@ void read_temp(){
 
 	if((j >=40) && (dht11_dat[4] == (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]))){
 		printf("%d.%d %d.%d\n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3]);
+		return 1;
 	}
-	else
-		printf("bad\n");
+	return 0;
 	
 }
 
@@ -60,9 +60,9 @@ int main(int argc, char **argv){
 	
 	if(wiringPiSetup() == -1)
 		exit(1);
-	
-	for(int i = 0; i<5000; i++){
-		read_temp();
+	while(1){	
+		if(read_temp() == 1)
+			break;
 		delay(200);
 	}
 	return 0;

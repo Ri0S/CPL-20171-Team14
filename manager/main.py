@@ -213,7 +213,17 @@ while 1:
 			fn = int(buff[2:4])
 			dn = int(buff[4:6])
 			modee = int(buff[6:8])
-			if fn == 2:
+			if fn == 0:
+				if modee == 1:
+					status = 0
+                                        while 1:
+                                                a = subprocess.Popen(['python', '/home/pi/project/CPL-20171-Team14/light/main.py'], stdout=subprocess.PIPE).stdout.read().strip()
+                                                if float(a) > 200 and status == 0:
+                                                        os.system("/home/pi/project/CPL-20171-Team14/motor/servo " + str(MOTOR_PINOUT[dn]) + " 0")
+                                                elif float(a) < 200 and status == 1:
+                                                        os.system("/home/pi/project/CPL-20171-Team14/motor/servo " + str(MOTOR_PINOUT[dn]) + " 1")
+                                                time.sleep(10)
+			elif fn == 2:
 				if modee == 1:
 ############################################################################
 					PININ = wtob[PIR_PININ[dn]]
@@ -276,6 +286,9 @@ while 1:
 			elif func == 3:
 				onoff = int(buff[6:8])
 				os.system("python /home/pi/project/CPL-20171-Team14/led/main.py " + str(LED_PINOUT[dn]) + ' '  + str(onoff)) 
+			elif func == 4:
+				a = subprocess.Popen(['/home/pi/project/CPL-20171-Team14/temperature/temperature', '15'], stdout=subprocess.PIPE).stdout.read().strip()
+				clientSocket.send(a)
 		clientSocket.close()
 	
 
