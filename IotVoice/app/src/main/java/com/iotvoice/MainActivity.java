@@ -19,13 +19,9 @@ import com.naver.speech.clientapi.SpeechRecognitionListener;
 import com.naver.speech.clientapi.SpeechRecognitionResult;
 import com.naver.speech.clientapi.SpeechRecognizer;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -237,30 +233,80 @@ class SendToServer extends AsyncTask<List<String>, Void, Void>
             android.os.Debug.waitForDebugger();
         try
         {
-            URL url = new URL("http://35.167.7.116/log.php");
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            conn.setConnectTimeout(3000);
-            conn.setReadTimeout(3000);
-
-            OutputStream out = conn.getOutputStream();
-            int idx = 0;
             for(String tmp : results[0])
             {
-                out.write(("name" + String.valueOf(idx) + "=" + URLEncoder.encode(tmp,"UTF-8")).getBytes());
-                out.write("&".getBytes());
-                idx += 1;
+                if(tmp.equals("불켜"))
+                {
+                    URL url = new URL("http://192.168.43.130:8000/LightRequest/192.168.43.195/0/");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "*/*");
+                    conn.connect();
+                    int resCode = conn.getResponseCode();
+                }
+                else if(tmp.equals("불꺼"))
+                {
+                    URL url = new URL("http://192.168.43.130:8000/LightRequest/192.168.43.195/1/");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "*/*");
+                    conn.connect();
+                    int resCode = conn.getResponseCode();
+                }
+                else if(tmp.equals("문체크")) {
+                    URL url = new URL("http://192.168.43.130:8000/services/192.168.43.195/");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "*/*");
+                    conn.connect();
+                    int resCode = conn.getResponseCode();
+                }
+                else if(tmp.equals("티비켜"))
+                {
+                    URL url = new URL("http://192.168.43.130:8000/IrRequest/192.168.43.195/Tv");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "*/*");
+                    conn.connect();
+                    int resCode = conn.getResponseCode();
+                }
+                else if(tmp.equals("티비꺼"))
+                {
+                    URL url = new URL("http://192.168.43.130:8000/IrRequest/192.168.43.195/Tv");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "*/*");
+                    conn.connect();
+                    int resCode = conn.getResponseCode();
+                }
+                else if(tmp.equals("출근"))
+                {
+                    //TV
+                    URL url = new URL("http://192.168.43.130:8000/IrRequest/192.168.43.195/Tv");
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "*/*");
+                    conn.connect();
+                    int resCode = conn.getResponseCode();
+
+                    //Aircon
+                    url = new URL("http://192.168.43.130:8000/IrRequest/192.168.43.195/Aircon");
+                    conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "*/*");
+                    conn.connect();
+                    resCode = conn.getResponseCode();
+
+                    //IPS
+                    url = new URL("http://192.168.43.130:8000/IpsAuto/192.168.43.195/1");
+                    conn = (HttpURLConnection)url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setRequestProperty("Accept", "*/*");
+                    conn.connect();
+                    resCode = conn.getResponseCode();
+                }
             }
 
-            InputStream in = conn.getInputStream();
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024 * 8];
-            int length = 0;
-            while ((length = in.read(buf)) != -1) {
-                output.write(buf, 0, length);
-            }
-            Log.d("server response" , new String(output.toByteArray(), "UTF-8"));
         }
         catch (Exception e)
         {
